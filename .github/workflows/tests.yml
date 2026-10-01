@@ -15,7 +15,7 @@ jobs:
           python-version: "3.11"
       - name: Install deps
         run: |
-          uv venv .venv
+          uv venv --clear .venv
           uv pip install --python .venv/bin/python pytest
       - name: Fetch reference data (public upstreams)
         run: .venv/bin/python -m koff.cli fetch
