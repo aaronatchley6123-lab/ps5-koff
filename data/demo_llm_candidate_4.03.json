@@ -1,0 +1,6 @@
+{
+  "_comment": "Demo candidate table mimicking a realistic LLM mistake: allproc taken from a kstuff-style (data-anchored) source while every other value is text-anchored (UMTX style). koff must flag allproc with CONVENTION MIXUP and the corrected value.",
+  "allproc": "0x27EDCB8",
+  "prison0": "0x2934D00",
+  "rootvnode": "0x72E74C0"
+}
