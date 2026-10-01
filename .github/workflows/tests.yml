@@ -1,0 +1,33 @@
+name: tests
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: |
+          uv venv .venv
+          uv pip install --python .venv/bin/python pytest
+      - name: Fetch reference data (public upstreams)
+        run: .venv/bin/python -m koff.cli fetch
+      - name: Demo — catch the planted LLM convention mixup (must exit 1)
+        run: |
+          set +e
+          .venv/bin/python -m koff.cli verify --fw 4.03 --table data/demo_llm_candidate_4.03.json
+          rc=$?
+          set -e
+          if [ "$rc" -ne 1 ]; then
+            echo "::error::demo verify returned $rc (expected 1: CONFLICT/CONVENTION MIXUP must be caught)"
+            exit 1
+          fi
+      - name: Test suite
+        run: .venv/bin/python -m pytest tests/ -q
