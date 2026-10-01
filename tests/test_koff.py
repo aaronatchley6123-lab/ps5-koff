@@ -72,7 +72,9 @@ def test_umtx_js_gadgetmap_not_kernel_data():
 def test_relapse_expression_forms():
     p = os.path.expanduser("~/slopervisor_hunt/Relapse-Exploit/offsets/13.40.js")
     if not os.path.isfile(p):
-        pytest.skip("relapse corpus not present on this machine")
+        p = os.path.join(ROOT, "refs/relapse/offsets/13.40.js")  # fetched copy
+    if not os.path.isfile(p):
+        pytest.skip("relapse corpus not present (run koff fetch)")
     tbl = load_js(p, "13.40", "relapse")
     # 13.40+ Relapse files use base+delta expressions for the flag fields —
     # a dropped delta silently collapses them onto the base value
